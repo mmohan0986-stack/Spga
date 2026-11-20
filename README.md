@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +51,10 @@ header p {
 h2 {
   font-size: 18px;
   margin-top: 0;
+}
+
+h3 {
+  font-size: 15px;
 }
 
 .sub {
@@ -129,23 +134,6 @@ button {
   padding: 8px;
 }
 
-.credit-grid, .direct-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-}
-
-.grade-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
-}
-
-.grade-grid select {
-  padding: 8px 4px;
-  font-size: 13px;
-}
-
 .preview {
   color: #9eacc2;
   font-size: 12px;
@@ -189,6 +177,7 @@ button {
 .detail {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid #285044;
   font-size: 13px;
@@ -224,7 +213,7 @@ footer {
   <p>Calculate your semester SGPA easily.</p>
 </header>
 
-<!-- FIRST SCREEN -->
+<!-- FIRST PAGE -->
 
 <section id="page1">
 
@@ -235,24 +224,14 @@ footer {
     <div class="count-grid">
       <div>
         <label>Regular Subjects</label>
-        <input
-          type="number"
-          id="regularCount"
-          min="0"
-          max="30"
-          placeholder="Example: 4"
-        >
+        <input type="number" id="regularCount"
+          min="0" max="30" placeholder="Example: 4">
       </div>
 
       <div>
         <label>Direct Subjects</label>
-        <input
-          type="number"
-          id="directCount"
-          min="0"
-          max="30"
-          placeholder="Example: 2"
-        >
+        <input type="number" id="directCount"
+          min="0" max="30" placeholder="Example: 2">
       </div>
     </div>
 
@@ -265,13 +244,14 @@ footer {
 
 </section>
 
-<!-- SECOND SCREEN -->
+<!-- SECOND PAGE -->
 
 <section id="page2" class="hidden">
 
   <button class="back" onclick="goBack()">← Back</button>
 
   <div class="panel">
+
     <h2>Enter Subject Details</h2>
     <p class="sub">
       Enter credits and grades for each subject.
@@ -288,10 +268,15 @@ footer {
     <button class="primary" onclick="calculateSGPA()">
       Calculate SGPA
     </button>
+
   </div>
 
+  <!-- RESULT -->
+
   <div class="panel result" id="result">
+
     <p class="sub">YOUR SEMESTER SGPA</p>
+
     <div class="sgpa" id="sgpaValue">0.000</div>
 
     <div class="metric">
@@ -310,6 +295,7 @@ footer {
     <button class="secondary" onclick="resetCalculator()">
       Start Again
     </button>
+
   </div>
 
 </section>
@@ -332,9 +318,6 @@ const gradePoints = {
   "O": 10
 };
 
-let regularNumber = 0;
-let directNumber = 0;
-
 function gradeOptions() {
   return `
     <option value="">Select Grade</option>
@@ -350,8 +333,13 @@ function gradeOptions() {
 
 function generateSubjects() {
 
-  const r = Number(document.getElementById("regularCount").value);
-  const d = Number(document.getElementById("directCount").value);
+  const r = Number(
+    document.getElementById("regularCount").value
+  );
+
+  const d = Number(
+    document.getElementById("directCount").value
+  );
 
   const error = document.getElementById("countError");
 
@@ -364,14 +352,11 @@ function generateSubjects() {
   ) {
     error.style.display = "block";
     error.innerText =
-      "Enter valid subject counts (1 to 30 total subjects).";
+      "Enter valid subject counts. Total must be between 1 and 30.";
     return;
   }
 
   error.style.display = "none";
-
-  regularNumber = r;
-  directNumber = d;
 
   document.getElementById("regularHeading").innerText =
     `Regular Subjects (${r})`;
@@ -388,7 +373,7 @@ function generateSubjects() {
   regularContainer.innerHTML = "";
   directContainer.innerHTML = "";
 
-  // Generate EXACT regular subject count
+  // REGULAR SUBJECTS
 
   for (let i = 1; i <= r; i++) {
 
@@ -415,17 +400,17 @@ function generateSubjects() {
           step="0.1"
           placeholder="Enter credits">
 
-        <label>Grade 1</label>
+        <label>Sessional 1 (30%)</label>
         <select class="grade1">
           ${gradeOptions()}
         </select>
 
-        <label>Grade 2</label>
+        <label>Sessional 2 (45%)</label>
         <select class="grade2">
           ${gradeOptions()}
         </select>
 
-        <label>Grade 3</label>
+        <label>LE (25%)</label>
         <select class="grade3">
           ${gradeOptions()}
         </select>
@@ -439,7 +424,7 @@ function generateSubjects() {
     `;
   }
 
-  // Generate EXACT direct subject count
+  // DIRECT SUBJECTS
 
   for (let i = 1; i <= d; i++) {
 
@@ -484,12 +469,15 @@ function generateSubjects() {
   document.getElementById("page2").classList.remove("hidden");
 
   document.getElementById("result").style.display = "none";
+
   window.scrollTo(0, 0);
 }
 
 function goBack() {
+
   document.getElementById("page2").classList.add("hidden");
   document.getElementById("page1").classList.remove("hidden");
+
   window.scrollTo(0, 0);
 }
 
@@ -503,16 +491,11 @@ function removeSubject(button, type) {
   const directSubjects =
     document.querySelectorAll(".direct-subject");
 
-  regularNumber = regularSubjects.length;
-  directNumber = directSubjects.length;
-
   document.getElementById("regularHeading").innerText =
-    `Regular Subjects (${regularNumber})`;
+    `Regular Subjects (${regularSubjects.length})`;
 
   document.getElementById("directHeading").innerText =
-    `Direct Subjects (${directNumber})`;
-
-  // Update subject numbers
+    `Direct Subjects (${directSubjects.length})`;
 
   regularSubjects.forEach((subject, index) => {
     subject.querySelector("h3").innerText =
@@ -556,7 +539,7 @@ function calculateSGPA() {
     const credits =
       Number(subject.querySelector(".credits").value);
 
-    if (!name || !credits || credits <= 0) {
+    if (!name || !Number.isFinite(credits) || credits <= 0) {
       return false;
     }
 
@@ -572,9 +555,13 @@ function calculateSGPA() {
         return false;
       }
 
+      // Sessional 1 = 30%
+      // Sessional 2 = 45%
+      // LE = 25%
+
       finalGradePoints =
-        (0.45 * gradePoints[g1]) +
-        (0.30 * gradePoints[g2]) +
+        (0.30 * gradePoints[g1]) +
+        (0.45 * gradePoints[g2]) +
         (0.25 * gradePoints[g3]);
 
     } else {
@@ -609,27 +596,25 @@ function calculateSGPA() {
   }
 
   for (const subject of regularSubjects) {
+
     if (!processSubject(subject, "regular")) {
       error.style.display = "block";
       error.innerText =
         "Please fill all regular subject details correctly.";
       return;
     }
+
   }
 
   for (const subject of directSubjects) {
+
     if (!processSubject(subject, "direct")) {
       error.style.display = "block";
       error.innerText =
         "Please fill all direct subject details correctly.";
       return;
     }
-  }
 
-  if (totalCredits <= 0) {
-    error.style.display = "block";
-    error.innerText = "Total credits must be greater than zero.";
-    return;
   }
 
   const sgpa = totalPoints / totalCredits;
@@ -654,7 +639,9 @@ function calculateSGPA() {
 }
 
 function escapeHTML(text) {
+
   return text.replace(/[&<>"']/g, function(char) {
+
     return {
       "&": "&amp;",
       "<": "&lt;",
@@ -662,7 +649,9 @@ function escapeHTML(text) {
       '"': "&quot;",
       "'": "&#039;"
     }[char];
+
   });
+
 }
 
 function resetCalculator() {

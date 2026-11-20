@@ -1,11 +1,9 @@
-# Spga
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GITAM SGPA Calculator</title>
+<title>SGPA Calculator</title>
 
 <style>
 * {
@@ -14,137 +12,316 @@
 
 body {
   margin: 0;
-  padding: 20px;
+  background: #0b1220;
+  color: white;
   font-family: Arial, sans-serif;
-  background: #f3f5fa;
-  color: #172033;
 }
 
-.container {
-  max-width: 850px;
+.app {
+  max-width: 520px;
   margin: auto;
+  padding: 16px;
 }
 
 header {
-  background: linear-gradient(120deg, #182b69, #315efb);
-  color: white;
-  padding: 25px;
-  border-radius: 18px;
-  text-align: center;
+  background: linear-gradient(135deg, #1b2b4a, #526df5);
+  padding: 25px 18px;
+  border-radius: 20px;
+  margin-bottom: 15px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  margin-top: 18px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px #0000000c;
+header h1 {
+  margin: 8px 0;
+}
+
+header p {
+  color: #dce5ff;
+  font-size: 13px;
+}
+
+.panel {
+  background: #131e30;
+  border: 1px solid #293950;
+  padding: 16px;
+  border-radius: 17px;
+  margin: 14px 0;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.sub {
+  font-size: 12px;
+  color: #9eacc2;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 5px;
+  color: #c4cee0;
 }
 
 input, select {
   width: 100%;
-  padding: 11px;
-  margin: 5px 0 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 12px;
+  min-height: 45px;
+  border: 1px solid #3a4b64;
+  border-radius: 10px;
+  background: #0e1828;
+  color: white;
+  font-size: 16px;
 }
 
 button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 8px;
-  background: #315efb;
-  color: white;
-  cursor: pointer;
+  border: 0;
+  border-radius: 11px;
+  padding: 13px;
   font-weight: bold;
-  margin: 5px 3px;
+  cursor: pointer;
+}
+
+.primary {
+  background: #7895ff;
+  color: #101a35;
+  width: 100%;
+  margin-top: 14px;
+}
+
+.secondary, .back {
+  background: #263750;
+  color: white;
+}
+
+.back {
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.count-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .subject {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 12px;
-  margin: 12px 0;
+  background: #101a2a;
+  border: 1px solid #293950;
+  border-radius: 13px;
+  padding: 13px;
+  margin-top: 12px;
 }
 
-.fields {
+.subject-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove {
+  background: #482731;
+  color: #ffb5bd;
+  padding: 8px;
+}
+
+.credit-grid, .direct-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
 }
 
-.direct .fields {
-  grid-template-columns: repeat(2, 1fr);
+.grade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.grade-grid select {
+  padding: 8px 4px;
+  font-size: 13px;
+}
+
+.preview {
+  color: #9eacc2;
+  font-size: 12px;
+}
+
+.preview b {
+  color: #6ee7ad;
 }
 
 .result {
   display: none;
-  background: #e9f9ef;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
+  background: #102c28;
+  border-color: #286449;
 }
 
-.result h1 {
-  color: #087443;
-  font-size: 42px;
+.sgpa {
+  font-size: 48px;
+  color: #6ee7ad;
+  font-weight: bold;
 }
 
-@media(max-width:600px) {
-  .fields {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.metric {
+  background: #0c211f;
+  border: 1px solid #285044;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.metric span {
+  font-size: 12px;
+  color: #b6d8c8;
+}
+
+.metric b {
+  display: block;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #285044;
+  font-size: 13px;
+}
+
+.detail b {
+  color: #6ee7ad;
+}
+
+.error {
+  display: none;
+  color: #ffaaaa;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  color: #9eacc2;
+  font-size: 11px;
+  padding: 15px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
+
+<main class="app">
 
 <header>
-  <h1>🎓 GITAM SGPA Calculator</h1>
-  <p>Calculate your SGPA easily</p>
+  <small>STUDENT TOOL</small>
+  <h1>🎓 SGPA Calculator</h1>
+  <p>Calculate your semester SGPA easily.</p>
 </header>
 
-<div class="card">
-  <h2>1. Subject Details</h2>
+<!-- FIRST SCREEN -->
 
-  <label>Number of Regular Subjects</label>
-  <input type="number" id="regularCount" value="5" min="0">
+<section id="page1">
 
-  <label>Number of Direct Subjects</label>
-  <input type="number" id="directCount" value="2" min="0">
+  <div class="panel">
+    <h2>How many subjects?</h2>
+    <p class="sub">Enter your exact subject count.</p>
 
-  <button onclick="createSubjects()">Create Subjects</button>
-</div>
+    <div class="count-grid">
+      <div>
+        <label>Regular Subjects</label>
+        <input
+          type="number"
+          id="regularCount"
+          min="0"
+          max="30"
+          placeholder="Example: 4"
+        >
+      </div>
 
-<div class="card">
-  <h2>2. Regular Subjects</h2>
-  <p>Formula: 45% + 30% + 25%</p>
-  <div id="regularSubjects"></div>
-</div>
+      <div>
+        <label>Direct Subjects</label>
+        <input
+          type="number"
+          id="directCount"
+          min="0"
+          max="30"
+          placeholder="Example: 2"
+        >
+      </div>
+    </div>
 
-<div class="card">
-  <h2>3. Direct Subjects</h2>
-  <div id="directSubjects"></div>
+    <p class="error" id="countError"></p>
 
-  <button onclick="calculateSGPA()">Calculate SGPA</button>
-  <button onclick="location.reload()">Reset</button>
-</div>
+    <button class="primary" onclick="generateSubjects()">
+      Continue →
+    </button>
+  </div>
 
-<div class="result" id="result">
-  <h2>Your Final SGPA</h2>
-  <h1 id="sgpa">0.000</h1>
-  <p id="credits"></p>
-  <p id="weighted"></p>
-  <div id="details"></div>
-</div>
+</section>
 
-</div>
+<!-- SECOND SCREEN -->
+
+<section id="page2" class="hidden">
+
+  <button class="back" onclick="goBack()">← Back</button>
+
+  <div class="panel">
+    <h2>Enter Subject Details</h2>
+    <p class="sub">
+      Enter credits and grades for each subject.
+    </p>
+
+    <h3 id="regularHeading"></h3>
+    <div id="regularSubjects"></div>
+
+    <h3 id="directHeading"></h3>
+    <div id="directSubjects"></div>
+
+    <p class="error" id="formError"></p>
+
+    <button class="primary" onclick="calculateSGPA()">
+      Calculate SGPA
+    </button>
+  </div>
+
+  <div class="panel result" id="result">
+    <p class="sub">YOUR SEMESTER SGPA</p>
+    <div class="sgpa" id="sgpaValue">0.000</div>
+
+    <div class="metric">
+      <span>Total Credits</span>
+      <b id="totalCredits">0</b>
+    </div>
+
+    <div class="metric">
+      <span>Total Weighted Grade Points</span>
+      <b id="totalPoints">0</b>
+    </div>
+
+    <h3>Subject-wise Details</h3>
+    <div id="resultDetails"></div>
+
+    <button class="secondary" onclick="resetCalculator()">
+      Start Again
+    </button>
+  </div>
+
+</section>
+
+<footer>
+  SGPA Calculator | Made for students
+</footer>
+
+</main>
 
 <script>
 
-// Grade point conversion
 const gradePoints = {
   "I": 4,
   "C": 5,
@@ -155,175 +332,319 @@ const gradePoints = {
   "O": 10
 };
 
-const grades = Object.keys(gradePoints);
+let regularNumber = 0;
+let directNumber = 0;
 
 function gradeOptions() {
-  return `<option value="">Select Grade</option>` +
-    grades.map(g =>
-      `<option value="${g}">${g} (${gradePoints[g]})</option>`
-    ).join("");
+  return `
+    <option value="">Select Grade</option>
+    <option value="I">I - 4</option>
+    <option value="C">C - 5</option>
+    <option value="B">B - 6</option>
+    <option value="B+">B+ - 7</option>
+    <option value="A">A - 8</option>
+    <option value="A+">A+ - 9</option>
+    <option value="O">O - 10</option>
+  `;
 }
 
-// Create subject fields
-function createSubjects() {
-  let r = Number(document.getElementById("regularCount").value);
-  let d = Number(document.getElementById("directCount").value);
+function generateSubjects() {
 
-  if (!Number.isInteger(r) || !Number.isInteger(d) ||
-      r < 0 || d < 0 || r + d === 0 || r > 30 || d > 30) {
-    alert("Enter valid subject counts.");
+  const r = Number(document.getElementById("regularCount").value);
+  const d = Number(document.getElementById("directCount").value);
+
+  const error = document.getElementById("countError");
+
+  if (
+    !Number.isInteger(r) ||
+    !Number.isInteger(d) ||
+    r < 0 || d < 0 ||
+    r > 30 || d > 30 ||
+    r + d === 0
+  ) {
+    error.style.display = "block";
+    error.innerText =
+      "Enter valid subject counts (1 to 30 total subjects).";
     return;
   }
 
-  let regular = document.getElementById("regularSubjects");
-  let direct = document.getElementById("directSubjects");
+  error.style.display = "none";
 
-  regular.innerHTML = "";
-  direct.innerHTML = "";
-  document.getElementById("result").style.display = "none";
+  regularNumber = r;
+  directNumber = d;
 
-  // Regular subjects
+  document.getElementById("regularHeading").innerText =
+    `Regular Subjects (${r})`;
+
+  document.getElementById("directHeading").innerText =
+    `Direct Subjects (${d})`;
+
+  const regularContainer =
+    document.getElementById("regularSubjects");
+
+  const directContainer =
+    document.getElementById("directSubjects");
+
+  regularContainer.innerHTML = "";
+  directContainer.innerHTML = "";
+
+  // Generate EXACT regular subject count
+
   for (let i = 1; i <= r; i++) {
-    regular.innerHTML += `
-      <div class="subject">
-        <h3>Regular Subject ${i}</h3>
+
+    regularContainer.innerHTML += `
+      <div class="subject regular-subject">
+
+        <div class="subject-head">
+          <h3>Regular Subject ${i}</h3>
+          <button class="remove"
+            onclick="removeSubject(this, 'regular')">
+            Remove
+          </button>
+        </div>
 
         <label>Subject Name</label>
-        <input class="rname" placeholder="Subject name">
+        <input type="text"
+          class="subject-name"
+          placeholder="Enter subject name">
 
         <label>Credits</label>
-        <input class="rcredit" type="number" min="0" step="0.5">
+        <input type="number"
+          class="credits"
+          min="0.1"
+          step="0.1"
+          placeholder="Enter credits">
 
-        <div class="fields">
-          <div>
-            <label>Grade 1 (45%)</label>
-            <select class="g1">${gradeOptions()}</select>
-          </div>
+        <label>Grade 1</label>
+        <select class="grade1">
+          ${gradeOptions()}
+        </select>
 
-          <div>
-            <label>Grade 2 (30%)</label>
-            <select class="g2">${gradeOptions()}</select>
-          </div>
+        <label>Grade 2</label>
+        <select class="grade2">
+          ${gradeOptions()}
+        </select>
 
-          <div>
-            <label>Grade 3 (25%)</label>
-            <select class="g3">${gradeOptions()}</select>
-          </div>
-        </div>
+        <label>Grade 3</label>
+        <select class="grade3">
+          ${gradeOptions()}
+        </select>
+
+        <p class="preview">
+          Final Grade Points:
+          <b class="final-points">--</b>
+        </p>
+
       </div>
     `;
   }
 
-  // Direct subjects
+  // Generate EXACT direct subject count
+
   for (let i = 1; i <= d; i++) {
-    direct.innerHTML += `
-      <div class="subject direct">
-        <h3>Direct Subject ${i}</h3>
+
+    directContainer.innerHTML += `
+      <div class="subject direct-subject">
+
+        <div class="subject-head">
+          <h3>Direct Subject ${i}</h3>
+          <button class="remove"
+            onclick="removeSubject(this, 'direct')">
+            Remove
+          </button>
+        </div>
 
         <label>Subject Name</label>
-        <input class="dname" placeholder="Subject name">
+        <input type="text"
+          class="subject-name"
+          placeholder="Enter subject name">
 
         <label>Credits</label>
-        <input class="dcredit" type="number" min="0" step="0.5">
+        <input type="number"
+          class="credits"
+          min="0.1"
+          step="0.1"
+          placeholder="Enter credits">
 
         <label>Final Grade</label>
-        <select class="dgrade">${gradeOptions()}</select>
+        <select class="direct-grade">
+          ${gradeOptions()}
+        </select>
+
+        <p class="preview">
+          Final Grade Points:
+          <b class="final-points">--</b>
+        </p>
+
       </div>
     `;
   }
+
+  document.getElementById("page1").classList.add("hidden");
+  document.getElementById("page2").classList.remove("hidden");
+
+  document.getElementById("result").style.display = "none";
+  window.scrollTo(0, 0);
 }
 
-// Calculate SGPA
+function goBack() {
+  document.getElementById("page2").classList.add("hidden");
+  document.getElementById("page1").classList.remove("hidden");
+  window.scrollTo(0, 0);
+}
+
+function removeSubject(button, type) {
+
+  button.closest(".subject").remove();
+
+  const regularSubjects =
+    document.querySelectorAll(".regular-subject");
+
+  const directSubjects =
+    document.querySelectorAll(".direct-subject");
+
+  regularNumber = regularSubjects.length;
+  directNumber = directSubjects.length;
+
+  document.getElementById("regularHeading").innerText =
+    `Regular Subjects (${regularNumber})`;
+
+  document.getElementById("directHeading").innerText =
+    `Direct Subjects (${directNumber})`;
+
+  // Update subject numbers
+
+  regularSubjects.forEach((subject, index) => {
+    subject.querySelector("h3").innerText =
+      `Regular Subject ${index + 1}`;
+  });
+
+  directSubjects.forEach((subject, index) => {
+    subject.querySelector("h3").innerText =
+      `Direct Subject ${index + 1}`;
+  });
+}
+
 function calculateSGPA() {
+
+  const error = document.getElementById("formError");
+  error.style.display = "none";
 
   let totalCredits = 0;
   let totalPoints = 0;
   let details = "";
 
-  const regularCards =
-    document.querySelectorAll("#regularSubjects .subject");
+  const regularSubjects =
+    document.querySelectorAll(".regular-subject");
 
-  const directCards =
-    document.querySelectorAll("#directSubjects .subject");
+  const directSubjects =
+    document.querySelectorAll(".direct-subject");
 
-  function addSubject(name, credit, grade) {
-    let weighted = credit * grade;
-
-    totalCredits += credit;
-    totalPoints += weighted;
-
-    details += `
-      <p>
-        ${name}: ${grade.toFixed(3)} × ${credit}
-        = ${weighted.toFixed(3)}
-      </p>
-    `;
-  }
-
-  // Regular subjects calculation
-  for (let i = 0; i < regularCards.length; i++) {
-
-    let card = regularCards[i];
-
-    let name = card.querySelector(".rname").value ||
-      `Regular Subject ${i+1}`;
-
-    let credit = Number(card.querySelector(".rcredit").value);
-
-    let g1 = card.querySelector(".g1").value;
-    let g2 = card.querySelector(".g2").value;
-    let g3 = card.querySelector(".g3").value;
-
-    if (!(credit > 0) || !g1 || !g2 || !g3) {
-      alert(`Please complete Regular Subject ${i+1}`);
-      return;
-    }
-
-    let grade =
-      (0.45 * gradePoints[g1]) +
-      (0.30 * gradePoints[g2]) +
-      (0.25 * gradePoints[g3]);
-
-    addSubject(name, credit, grade);
-  }
-
-  // Direct subjects calculation
-  for (let i = 0; i < directCards.length; i++) {
-
-    let card = directCards[i];
-
-    let name = card.querySelector(".dname").value ||
-      `Direct Subject ${i+1}`;
-
-    let credit = Number(card.querySelector(".dcredit").value);
-    let grade = card.querySelector(".dgrade").value;
-
-    if (!(credit > 0) || !grade) {
-      alert(`Please complete Direct Subject ${i+1}`);
-      return;
-    }
-
-    addSubject(name, credit, gradePoints[grade]);
-  }
-
-  if (totalCredits === 0) {
-    alert("Please add subjects.");
+  if (
+    regularSubjects.length + directSubjects.length === 0
+  ) {
+    error.style.display = "block";
+    error.innerText = "Add at least one subject.";
     return;
   }
 
-  // Final SGPA
-  let sgpa = totalPoints / totalCredits;
+  function processSubject(subject, type) {
 
-  document.getElementById("sgpa").innerText =
+    const name =
+      subject.querySelector(".subject-name").value.trim();
+
+    const credits =
+      Number(subject.querySelector(".credits").value);
+
+    if (!name || !credits || credits <= 0) {
+      return false;
+    }
+
+    let finalGradePoints;
+
+    if (type === "regular") {
+
+      const g1 = subject.querySelector(".grade1").value;
+      const g2 = subject.querySelector(".grade2").value;
+      const g3 = subject.querySelector(".grade3").value;
+
+      if (!g1 || !g2 || !g3) {
+        return false;
+      }
+
+      finalGradePoints =
+        (0.45 * gradePoints[g1]) +
+        (0.30 * gradePoints[g2]) +
+        (0.25 * gradePoints[g3]);
+
+    } else {
+
+      const grade =
+        subject.querySelector(".direct-grade").value;
+
+      if (!grade) {
+        return false;
+      }
+
+      finalGradePoints = gradePoints[grade];
+    }
+
+    const weightedPoints =
+      finalGradePoints * credits;
+
+    totalCredits += credits;
+    totalPoints += weightedPoints;
+
+    subject.querySelector(".final-points").innerText =
+      finalGradePoints.toFixed(3);
+
+    details += `
+      <div class="detail">
+        <span>${escapeHTML(name)} (${credits} credits)</span>
+        <b>${finalGradePoints.toFixed(3)}</b>
+      </div>
+    `;
+
+    return true;
+  }
+
+  for (const subject of regularSubjects) {
+    if (!processSubject(subject, "regular")) {
+      error.style.display = "block";
+      error.innerText =
+        "Please fill all regular subject details correctly.";
+      return;
+    }
+  }
+
+  for (const subject of directSubjects) {
+    if (!processSubject(subject, "direct")) {
+      error.style.display = "block";
+      error.innerText =
+        "Please fill all direct subject details correctly.";
+      return;
+    }
+  }
+
+  if (totalCredits <= 0) {
+    error.style.display = "block";
+    error.innerText = "Total credits must be greater than zero.";
+    return;
+  }
+
+  const sgpa = totalPoints / totalCredits;
+
+  document.getElementById("sgpaValue").innerText =
     sgpa.toFixed(3);
 
-  document.getElementById("credits").innerText =
-    "Total Credits: " + totalCredits;
+  document.getElementById("totalCredits").innerText =
+    totalCredits.toFixed(2);
 
-  document.getElementById("weighted").innerText =
-    "Total Weighted Points: " + totalPoints.toFixed(3);
+  document.getElementById("totalPoints").innerText =
+    totalPoints.toFixed(3);
 
-  document.getElementById("details").innerHTML = details;
+  document.getElementById("resultDetails").innerHTML =
+    details;
 
   document.getElementById("result").style.display = "block";
 
@@ -332,9 +653,35 @@ function calculateSGPA() {
   });
 }
 
-// Initial subjects
-createSubjects();
+function escapeHTML(text) {
+  return text.replace(/[&<>"']/g, function(char) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char];
+  });
+}
+
+function resetCalculator() {
+
+  document.getElementById("result").style.display = "none";
+
+  document.getElementById("regularSubjects").innerHTML = "";
+  document.getElementById("directSubjects").innerHTML = "";
+
+  document.getElementById("regularCount").value = "";
+  document.getElementById("directCount").value = "";
+
+  document.getElementById("page2").classList.add("hidden");
+  document.getElementById("page1").classList.remove("hidden");
+
+  window.scrollTo(0, 0);
+}
 
 </script>
+
 </body>
 </html>

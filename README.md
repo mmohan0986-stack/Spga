@@ -213,8 +213,6 @@ footer {
   <p>Calculate your semester SGPA easily.</p>
 </header>
 
-<!-- FIRST PAGE -->
-
 <section id="page1">
 
   <div class="panel">
@@ -244,8 +242,6 @@ footer {
 
 </section>
 
-<!-- SECOND PAGE -->
-
 <section id="page2" class="hidden">
 
   <button class="back" onclick="goBack()">← Back</button>
@@ -271,8 +267,6 @@ footer {
 
   </div>
 
-  <!-- RESULT -->
-
   <div class="panel result" id="result">
 
     <p class="sub">YOUR SEMESTER SGPA</p>
@@ -289,7 +283,7 @@ footer {
       <b id="totalPoints">0</b>
     </div>
 
-    <h3>Subject-wise Details</h3>
+    <h3>Subject-wise Grades</h3>
     <div id="resultDetails"></div>
 
     <button class="secondary" onclick="resetCalculator()">
@@ -318,7 +312,22 @@ const gradePoints = {
   "O": 10
 };
 
+// Convert numerical grade points into letter grades
+
+function getLetterGrade(points) {
+
+  if (points >= 9) return "O";
+  if (points >= 8) return "A+";
+  if (points >= 7) return "A";
+  if (points >= 6) return "B+";
+  if (points >= 5) return "B";
+  if (points >= 4) return "C";
+
+  return "--";
+}
+
 function gradeOptions() {
+
   return `
     <option value="">Select Grade</option>
     <option value="I">I - 4</option>
@@ -344,15 +353,19 @@ function generateSubjects() {
   const error = document.getElementById("countError");
 
   if (
+    document.getElementById("regularCount").value === "" ||
+    document.getElementById("directCount").value === "" ||
     !Number.isInteger(r) ||
     !Number.isInteger(d) ||
     r < 0 || d < 0 ||
     r > 30 || d > 30 ||
     r + d === 0
   ) {
+
     error.style.display = "block";
     error.innerText =
       "Enter valid subject counts. Total must be between 1 and 30.";
+
     return;
   }
 
@@ -383,7 +396,7 @@ function generateSubjects() {
         <div class="subject-head">
           <h3>Regular Subject ${i}</h3>
           <button class="remove"
-            onclick="removeSubject(this, 'regular')">
+            onclick="removeSubject(this)">
             Remove
           </button>
         </div>
@@ -416,7 +429,7 @@ function generateSubjects() {
         </select>
 
         <p class="preview">
-          Final Grade Points:
+          Final Grade:
           <b class="final-points">--</b>
         </p>
 
@@ -434,7 +447,7 @@ function generateSubjects() {
         <div class="subject-head">
           <h3>Direct Subject ${i}</h3>
           <button class="remove"
-            onclick="removeSubject(this, 'direct')">
+            onclick="removeSubject(this)">
             Remove
           </button>
         </div>
@@ -457,7 +470,7 @@ function generateSubjects() {
         </select>
 
         <p class="preview">
-          Final Grade Points:
+          Final Grade:
           <b class="final-points">--</b>
         </p>
 
@@ -481,7 +494,7 @@ function goBack() {
   window.scrollTo(0, 0);
 }
 
-function removeSubject(button, type) {
+function removeSubject(button) {
 
   button.closest(".subject").remove();
 
@@ -526,8 +539,10 @@ function calculateSGPA() {
   if (
     regularSubjects.length + directSubjects.length === 0
   ) {
+
     error.style.display = "block";
     error.innerText = "Add at least one subject.";
+
     return;
   }
 
@@ -539,7 +554,12 @@ function calculateSGPA() {
     const credits =
       Number(subject.querySelector(".credits").value);
 
-    if (!name || !Number.isFinite(credits) || credits <= 0) {
+    if (
+      !name ||
+      !subject.querySelector(".credits").value ||
+      !Number.isFinite(credits) ||
+      credits <= 0
+    ) {
       return false;
     }
 
@@ -582,13 +602,16 @@ function calculateSGPA() {
     totalCredits += credits;
     totalPoints += weightedPoints;
 
+    const letterGrade =
+      getLetterGrade(finalGradePoints);
+
     subject.querySelector(".final-points").innerText =
-      finalGradePoints.toFixed(3);
+      letterGrade;
 
     details += `
       <div class="detail">
         <span>${escapeHTML(name)} (${credits} credits)</span>
-        <b>${finalGradePoints.toFixed(3)}</b>
+        <b>${letterGrade}</b>
       </div>
     `;
 
@@ -598,23 +621,25 @@ function calculateSGPA() {
   for (const subject of regularSubjects) {
 
     if (!processSubject(subject, "regular")) {
+
       error.style.display = "block";
       error.innerText =
         "Please fill all regular subject details correctly.";
+
       return;
     }
-
   }
 
   for (const subject of directSubjects) {
 
     if (!processSubject(subject, "direct")) {
+
       error.style.display = "block";
       error.innerText =
         "Please fill all direct subject details correctly.";
+
       return;
     }
-
   }
 
   const sgpa = totalPoints / totalCredits;
